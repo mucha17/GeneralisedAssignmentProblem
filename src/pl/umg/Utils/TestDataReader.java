@@ -1,4 +1,8 @@
-package pl.umg;
+package pl.umg.Utils;
+
+import pl.umg.Agent;
+import pl.umg.Job;
+import pl.umg.Problem;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Utils {
+public class TestDataReader {
 
 	public static String tryToReadLine(BufferedReader reader) {
 		String line;
@@ -37,7 +41,7 @@ public class Utils {
 				agents = new HashMap<>();
 				jobs = new HashMap<>();
 				String line;
-				line = Utils.tryToReadLine(reader);
+				line = TestDataReader.tryToReadLine(reader);
 				System.out.println("Get the agents and jobs amount: " + line);
 				assert line != null;
 				numberOfAgents = Integer.parseInt(line.split(" ")[0]);
@@ -47,7 +51,7 @@ public class Utils {
 				int[][] resourcesConsumedInAllocating = new int[numberOfAgents][numberOfJobs];
 
 				for (int i = 0; i < numberOfAgents; i++) {
-					line = Utils.tryToReadLine(reader);
+					line = TestDataReader.tryToReadLine(reader);
 					System.out.println("Got line of job costs: " + line);
 					for (int j = 0; j < numberOfJobs; j++) {
 						assert line != null;
@@ -55,7 +59,7 @@ public class Utils {
 					}
 				}
 				for (int i = 0; i < numberOfAgents; i++) {
-					line = Utils.tryToReadLine(reader);
+					line = TestDataReader.tryToReadLine(reader);
 					System.out.println("Got line of job resources: " + line);
 					for (int j = 0; j < numberOfJobs; j++) {
 						assert line != null;
@@ -63,7 +67,7 @@ public class Utils {
 					}
 				}
 
-				line = Utils.tryToReadLine(reader);
+				line = TestDataReader.tryToReadLine(reader);
 				System.out.println("Got line of agents capacity: " + line);
 				for (int i = 0; i < numberOfAgents; i++) {
 					assert line != null;
