@@ -1,6 +1,6 @@
 package pl.umg;
 
-public class Assignment {
+public class Assignment implements Comparable<Assignment> {
 	private final Agent agent;
 	private final Job job;
 
@@ -15,5 +15,10 @@ public class Assignment {
 
 	public Job getJob() {
 		return job;
+	}
+
+	@Override
+	public int compareTo(Assignment o) {
+		return Double.compare((double) this.getJob().getCostsOfAllocating().get(this.getAgent()) / this.getJob().getResourcesConsumedInAllocating().get(this.getAgent()), (double) o.getJob().getCostsOfAllocating().get(o.getAgent()) / o.getJob().getResourcesConsumedInAllocating().get(o.getAgent()));
 	}
 }
