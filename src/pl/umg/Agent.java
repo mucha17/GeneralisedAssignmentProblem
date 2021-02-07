@@ -35,8 +35,8 @@ public class Agent {
 
 	public int getWorkCosts() {
 		int costs = 0;
-		for(int i = 0; i < assignments.size(); i++) {
-			costs += assignments.get(i).getCostsOfAllocating().get(this);
+		for (Job assignment : assignments) {
+			costs += assignment.getCostsOfAllocating().get(this);
 		}
 		return costs;
 	}
