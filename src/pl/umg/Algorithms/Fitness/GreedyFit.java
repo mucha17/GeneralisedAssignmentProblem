@@ -8,9 +8,6 @@ import java.util.Arrays;
 
 public class GreedyFit {
 
-	private static final double COST_VALUE = 1;
-	private static final double RESOURCE_VALUE = 1;
-
 	public static void assignJobsToAgents(Problem problem) {
 		boolean[] jobsAssigned = new boolean[problem.getNumberOfJobs()]; // automatically has false values
 		Boolean[] canBeAssignedAnotherJob = new Boolean[problem.getNumberOfAgents()]; // has to be assigned true values
@@ -33,7 +30,7 @@ public class GreedyFit {
 						} else {
 							int bjresource = bestJob.getResourcesConsumedInAllocating().get(agent);
 							int bjcost = bestJob.getCostsOfAllocating().get(agent);
-							if ((COST_VALUE * cost + RESOURCE_VALUE * resource) < (COST_VALUE * bjcost + RESOURCE_VALUE * bjresource)) {
+							if (bjcost/bjresource < cost/resource) {
 								bestJob = job;
 							}
 						}
