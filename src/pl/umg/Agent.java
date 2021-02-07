@@ -17,10 +17,7 @@ public class Agent {
 	}
 
 	public boolean isAssignable(int extraLoad) {
-		int load = 0;
-		for (Job assignment : assignments) {
-			load += assignment.getResourcesConsumedInAllocating().get(this);
-		}
+		int load = this.getResourcesLoad();
 		return (load + extraLoad) < this.capacity;
 	}
 
@@ -34,5 +31,30 @@ public class Agent {
 
 	public boolean removeAssignment(Job job) {
 		return this.assignments.remove(job);
+	}
+
+	public int getWorkCosts() {
+		int costs = 0;
+		for(int i = 0; i < assignments.size(); i++) {
+			costs += assignments.get(i).getCostsOfAllocating().get(this);
+		}
+		return costs;
+	}
+
+	public int getResourcesLoad() {
+		int load = 0;
+		for (Job assignment : assignments) {
+			load += assignment.getResourcesConsumedInAllocating().get(this);
+		}
+		return load;
+	}
+
+	@Override
+	public String toString() {
+		String toView = "Agent has " + getResourcesLoad() + "/" + capacity + "\nAssignments:\n";
+		for(Job assignment : assignments) {
+			toView += "Cost: " + assignment.getCostsOfAllocating().get(this) + ", resources: " + assignment.getResourcesConsumedInAllocating().get(this) + "\n";
+		}
+		return toView;
 	}
 }

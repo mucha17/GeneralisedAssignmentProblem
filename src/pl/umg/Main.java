@@ -17,9 +17,13 @@ public class Main {
 
 		GreedyFit.assignJobsToAgents(problem);
 
-		for(int key : problem.getAgents().keySet()) {
+		int costs = 0;
+		for (int key : problem.getAgents().keySet()) {
 			System.out.println("Agent " + key + " has " + problem.getAgents().get(key).getAssignments().size() + " assignments");
+			System.out.println(problem.getAgents().get(key));
+			costs += problem.getAgents().get(key).getWorkCosts();
 		}
+		System.out.println("Work costs equal " + costs);
 
 	}
 }
