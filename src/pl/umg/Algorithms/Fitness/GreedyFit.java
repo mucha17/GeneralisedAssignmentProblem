@@ -1,14 +1,13 @@
 package pl.umg.Algorithms.Fitness;
 
-import pl.umg.Agent;
-import pl.umg.Job;
-import pl.umg.Problem;
+import pl.umg.*;
 
 import java.util.Arrays;
 
 public class GreedyFit {
 
-	public static void assignJobsToAgents(Problem problem) {
+	public static Solution generateSolution(Problem problem) {
+		Solution solution = new Solution();
 		boolean[] jobsAssigned = new boolean[problem.getNumberOfJobs()]; // automatically has false values
 		Boolean[] canBeAssignedAnotherJob = new Boolean[problem.getNumberOfAgents()]; // has to be assigned true values
 		Arrays.fill(canBeAssignedAnotherJob, true);
@@ -20,7 +19,7 @@ public class GreedyFit {
 				for (int jobIndex : problem.getJobs().keySet()) {
 					if (!jobsAssigned[jobIndex]) {
 						Job job = problem.getJobs().get(jobIndex);
-						if (agent.isAssignable(job.getResourcesConsumedInAllocating().get(agent))) {
+						if (solution.isJobAssignableToAgent(job, agent)) {
 							canBeAssignedAnotherJob[agentIndex] = true;
 						}
 						int resource = job.getResourcesConsumedInAllocating().get(agent);
@@ -36,7 +35,7 @@ public class GreedyFit {
 						}
 					}
 				}
-				if (bestJob != null && agent.addAssignment(bestJob)) {
+				if (bestJob != null && solution.addAssignment(new Assignment(agent, bestJob))) {
 					Integer jobIndex = null;
 					for (int key : problem.getJobs().keySet()) {
 						if (problem.getJobs().get(key).equals(bestJob)) {
@@ -49,5 +48,6 @@ public class GreedyFit {
 				}
 			}
 		}
+		return solution;
 	}
 }

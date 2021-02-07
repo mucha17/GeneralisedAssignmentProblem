@@ -1,8 +1,8 @@
 package pl.umg.Algorithms.TabuSearch;
 
 public class Move {
-	int cadence;
-	Pair pair;
+	private int cadence;
+	private Pair pair;
 
 	public Move(Pair pair, int cadence) {
 		this.pair = pair;

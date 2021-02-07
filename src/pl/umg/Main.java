@@ -15,15 +15,15 @@ public class Main {
 
 		Problem problem = problems.get(0);
 
-		GreedyFit.assignJobsToAgents(problem);
+		Solution solution = GreedyFit.generateSolution(problem);
 
-		int costs = 0;
 		for (int key : problem.getAgents().keySet()) {
-			System.out.println("Agent " + key + " has " + problem.getAgents().get(key).getAssignments().size() + " assignments");
-			System.out.println(problem.getAgents().get(key));
-			costs += problem.getAgents().get(key).getWorkCosts();
+			Agent agent = problem.getAgents().get(key);
+			System.out.println("Agent " + key + " has " + solution.getAgentsAssignments(agent).size() + " assignments");
+			System.out.println("His work costs: " + solution.getAgentsWorkCosts(agent));
+			System.out.println("His resources load: " + solution.getAgentsResourcesLoad(agent) + "/" + agent.getCapacity());
 		}
-		System.out.println("Work costs equal " + costs);
+		System.out.println("Work costs equal " + solution.getTotalCost());
 
 	}
 }
