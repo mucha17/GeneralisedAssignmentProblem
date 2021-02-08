@@ -8,8 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TestDataReader {
 
@@ -36,42 +35,45 @@ public class TestDataReader {
 
 				int numberOfAgents;
 				int numberOfJobs;
-				Map<Integer, Agent> agents;
-				Map<Integer, Job> jobs;
-				agents = new HashMap<>();
-				jobs = new HashMap<>();
-				String line;
-				line = TestDataReader.tryToReadLine(reader);
+				List<Agent> agents = new ArrayList<>();
+				List<Job> jobs = new ArrayList<>();
+				StringBuilder line;
+				line = new StringBuilder(Objects.requireNonNull(TestDataReader.tryToReadLine(reader)));
 				System.out.println("Get the agents and jobs amount: " + line);
-				assert line != null;
-				numberOfAgents = Integer.parseInt(line.split(" ")[0]);
-				numberOfJobs = Integer.parseInt(line.split(" ")[1]);
+				numberOfAgents = Integer.parseInt(line.toString().split(" ")[0]);
+				numberOfJobs = Integer.parseInt(line.toString().split(" ")[1]);
 
 				int[][] costsOfAllocating = new int[numberOfAgents][numberOfJobs];
 				int[][] resourcesConsumedInAllocating = new int[numberOfAgents][numberOfJobs];
 
 				for (int i = 0; i < numberOfAgents; i++) {
-					line = TestDataReader.tryToReadLine(reader);
+					line = new StringBuilder(Objects.requireNonNull(TestDataReader.tryToReadLine(reader)));
+					while(line.toString().split(" ").length < numberOfJobs) {
+						line.append(" ").append(TestDataReader.tryToReadLine(reader));
+					}
 					System.out.println("Got line of job costs: " + line);
 					for (int j = 0; j < numberOfJobs; j++) {
-						assert line != null;
-						costsOfAllocating[i][j] = Integer.parseInt(line.split(" ")[j]);
+						costsOfAllocating[i][j] = Integer.parseInt(line.toString().split(" ")[j]);
 					}
 				}
 				for (int i = 0; i < numberOfAgents; i++) {
-					line = TestDataReader.tryToReadLine(reader);
+					line = new StringBuilder(Objects.requireNonNull(TestDataReader.tryToReadLine(reader)));
+					while(line.toString().split(" ").length < numberOfJobs) {
+						line.append(" ").append(TestDataReader.tryToReadLine(reader));
+					}
 					System.out.println("Got line of job resources: " + line);
 					for (int j = 0; j < numberOfJobs; j++) {
-						assert line != null;
-						resourcesConsumedInAllocating[i][j] = Integer.parseInt(line.split(" ")[j]);
+						resourcesConsumedInAllocating[i][j] = Integer.parseInt(line.toString().split(" ")[j]);
 					}
 				}
 
-				line = TestDataReader.tryToReadLine(reader);
+				line = new StringBuilder(Objects.requireNonNull(TestDataReader.tryToReadLine(reader)));
+				while(line.toString().split(" ").length < numberOfAgents) {
+					line.append(" ").append(TestDataReader.tryToReadLine(reader));
+				}
 				System.out.println("Got line of agents capacity: " + line);
 				for (int i = 0; i < numberOfAgents; i++) {
-					assert line != null;
-					agents.put(i, new Agent(Integer.parseInt(line.split(" ")[i])));
+					agents.add(new Agent(i, Integer.parseInt(line.toString().split(" ")[i])));
 				}
 
 				for (int i = 0; i < numberOfJobs; i++) {
@@ -82,7 +84,7 @@ public class TestDataReader {
 						costsOfAllocatingMap.put(agent, costsOfAllocating[j][i]);
 						resourcesConsumedInAllocatingMap.put(agent, resourcesConsumedInAllocating[j][i]);
 					}
-					jobs.put(i, new Job(costsOfAllocatingMap, resourcesConsumedInAllocatingMap));
+					jobs.add(new Job(i, costsOfAllocatingMap, resourcesConsumedInAllocatingMap));
 				}
 
 				problems.put(index, new Problem(numberOfAgents, numberOfJobs, agents, jobs));
