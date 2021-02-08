@@ -64,7 +64,7 @@ public class Solution {
 	public boolean isJobAssignableToAgent(Job selectedJob, Agent selectedAgent) {
 		int currentLoad = getAgentsResourcesLoad(selectedAgent);
 		int extraLoad = selectedJob.getResourcesConsumedInAllocating().get(selectedAgent);
-		return (currentLoad + extraLoad) < selectedAgent.getCapacity();
+		return (currentLoad + extraLoad) <= selectedAgent.getCapacity();
 	}
 
 	public boolean addAssignment(Assignment assignment) {

@@ -1,14 +1,14 @@
 package pl.umg;
 
-import java.util.Map;
+import java.util.List;
 
 public class Problem {
 	private final int numberOfAgents;
 	private final int numberOfJobs;
-	private final Map<Integer, Agent> agents;
-	private final Map<Integer, Job> jobs;
+	private final List<Agent> agents;
+	private final List<Job> jobs;
 
-	public Problem(int numberOfAgents, int numberOfJobs, Map<Integer, Agent> agents, Map<Integer, Job> jobs) {
+	public Problem(int numberOfAgents, int numberOfJobs, List<Agent> agents, List<Job> jobs) {
 		this.numberOfAgents = numberOfAgents;
 		this.numberOfJobs = numberOfJobs;
 		this.agents = agents;
@@ -23,12 +23,12 @@ public class Problem {
 		return numberOfJobs;
 	}
 
-	public Map<Integer, Agent> getAgents() {
+	public List<Agent> getAgents() {
 		return agents;
 	}
 
-	public Map<Integer, Job> getJobs() {
+	public List<Job> getJobs() {
 		return jobs;
 	}
-	
+
 }

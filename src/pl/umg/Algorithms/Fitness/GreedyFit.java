@@ -12,15 +12,13 @@ public class GreedyFit {
 		Boolean[] canBeAssignedAnotherJob = new Boolean[problem.getNumberOfAgents()]; // has to be assigned true values
 		Arrays.fill(canBeAssignedAnotherJob, true);
 		while (Arrays.asList(canBeAssignedAnotherJob).contains(true)) {
-			for (int agentIndex : problem.getAgents().keySet()) {
-				Agent agent = problem.getAgents().get(agentIndex);
+			for (Agent agent : problem.getAgents()) {
 				Job bestJob = null;
-				canBeAssignedAnotherJob[agentIndex] = false; // set to false so it can be checked against jobs
-				for (int jobIndex : problem.getJobs().keySet()) {
-					if (!jobsAssigned[jobIndex]) {
-						Job job = problem.getJobs().get(jobIndex);
+				canBeAssignedAnotherJob[agent.getIndex()] = false; // set to false so it can be checked against jobs
+				for (Job job : problem.getJobs()) {
+					if (!jobsAssigned[job.getIndex()]) {
 						if (solution.isJobAssignableToAgent(job, agent)) {
-							canBeAssignedAnotherJob[agentIndex] = true;
+							canBeAssignedAnotherJob[agent.getIndex()] = true;
 						}
 						int resource = job.getResourcesConsumedInAllocating().get(agent);
 						int cost = job.getCostsOfAllocating().get(agent);
@@ -37,9 +35,9 @@ public class GreedyFit {
 				}
 				if (bestJob != null && solution.addAssignment(new Assignment(agent, bestJob))) {
 					Integer jobIndex = null;
-					for (int key : problem.getJobs().keySet()) {
-						if (problem.getJobs().get(key).equals(bestJob)) {
-							jobIndex = key;
+					for (Job job : problem.getJobs()) {
+						if (problem.getJobs().get(job.getIndex()).equals(bestJob)) {
+							jobIndex = job.getIndex();
 						}
 					}
 					if (jobIndex != null) {
