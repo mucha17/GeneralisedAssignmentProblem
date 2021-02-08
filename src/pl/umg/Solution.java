@@ -28,7 +28,6 @@ public class Solution {
 	public List<Assignment> getAgentsAssignments(Agent selectedAgent) {
 		List<Assignment> agentsAssignments = new ArrayList<>();
 		for (Assignment assignment : assignments) {
-			Job job = assignment.getJob();
 			Agent agent = assignment.getAgent();
 			if (agent == selectedAgent) {
 				agentsAssignments.add(assignment);
@@ -75,7 +74,7 @@ public class Solution {
 		}
 	}
 
-	public boolean removeAssignment(Assignment assignment) {
-		return assignments.remove(assignment);
+	public void removeAssignment(Assignment assignment) {
+		assignments.remove(assignment);
 	}
 }
