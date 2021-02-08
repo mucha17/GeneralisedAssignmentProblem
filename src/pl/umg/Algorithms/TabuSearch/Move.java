@@ -23,7 +23,7 @@ public class Move {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Move) {
+		if (obj instanceof Move) {
 			return this.getPair().equals(((Move) obj).getPair());
 		} else {
 			return false;

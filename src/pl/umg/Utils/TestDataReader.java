@@ -48,7 +48,7 @@ public class TestDataReader {
 
 				for (int i = 0; i < numberOfAgents; i++) {
 					line = new StringBuilder(Objects.requireNonNull(TestDataReader.tryToReadLine(reader)));
-					while(line.toString().split(" ").length < numberOfJobs) {
+					while (line.toString().split(" ").length < numberOfJobs) {
 						line.append(" ").append(TestDataReader.tryToReadLine(reader));
 					}
 					System.out.println("Got line of job costs: " + line);
@@ -58,7 +58,7 @@ public class TestDataReader {
 				}
 				for (int i = 0; i < numberOfAgents; i++) {
 					line = new StringBuilder(Objects.requireNonNull(TestDataReader.tryToReadLine(reader)));
-					while(line.toString().split(" ").length < numberOfJobs) {
+					while (line.toString().split(" ").length < numberOfJobs) {
 						line.append(" ").append(TestDataReader.tryToReadLine(reader));
 					}
 					System.out.println("Got line of job resources: " + line);
@@ -68,7 +68,7 @@ public class TestDataReader {
 				}
 
 				line = new StringBuilder(Objects.requireNonNull(TestDataReader.tryToReadLine(reader)));
-				while(line.toString().split(" ").length < numberOfAgents) {
+				while (line.toString().split(" ").length < numberOfAgents) {
 					line.append(" ").append(TestDataReader.tryToReadLine(reader));
 				}
 				System.out.println("Got line of agents capacity: " + line);

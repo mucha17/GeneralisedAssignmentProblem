@@ -35,7 +35,6 @@ public class SearchAlgorithm {
 			constructNewSolution(solution);
 			if (bestSolution.getTotalCost() < solution.getTotalCost()) {
 				bestSolution = Cloner.cloneSolution(solution);
-				System.out.println("BS size: " + bestSolution.getAssignments().size());
 				currentTolerance = tolerance;
 			} else {
 				currentTolerance--;
@@ -80,18 +79,10 @@ public class SearchAlgorithm {
 				Agent secondAgent = applicableAssignment.getAgent();
 				Job secondJob = applicableAssignment.getJob();
 
-				if (!solution.removeAssignment(worstAssignment)) {
-					System.out.println("[ERROR] Deletion of worst assignment should always work");
-				}
-				if (!solution.removeAssignment(applicableAssignment)) {
-					System.out.println("[ERROR] Deletion of applicable should always work");
-				}
-				if (!solution.addAssignment(new Assignment(firstAgent, secondJob))) {
-					System.out.println("[ERROR] This should be possible (free capacity: " + (firstAgent.getCapacity() - solution.getAgentsResourcesLoad(firstAgent)) + ", required capacity: " + secondJob.getResourcesConsumedInAllocating().get(firstAgent) + ")");
-				}
-				if (!solution.addAssignment(new Assignment(secondAgent, firstJob))) {
-					System.out.println("[ERROR] This should be possible (free capacity: " + (secondAgent.getCapacity() - solution.getAgentsResourcesLoad(secondAgent)) + ", required capacity: " + firstJob.getResourcesConsumedInAllocating().get(secondAgent) + ")");
-				}
+				solution.removeAssignment(worstAssignment);
+				solution.removeAssignment(applicableAssignment);
+				solution.addAssignment(new Assignment(firstAgent, secondJob));
+				solution.addAssignment(new Assignment(secondAgent, firstJob));
 
 				// make move tabu
 				if (addToTabuList(move)) {
@@ -113,25 +104,17 @@ public class SearchAlgorithm {
 				temporarySolution.addAssignment(new Assignment(secondAgent, firstJob));
 				if (temporarySolution.getTotalCost() > solution.getTotalCost()) {
 					System.out.println("Aspiration Criteria is met, breaking tabu and making the move");
-					if (!solution.removeAssignment(worstAssignment)) {
-						System.out.println("[ERROR] Deletion of worst assignment should always work");
-					}
-					if (!solution.removeAssignment(applicableAssignment)) {
-						System.out.println("[ERROR] Deletion of applicable should always work");
-					}
-					if (!solution.addAssignment(new Assignment(firstAgent, secondJob))) {
-						System.out.println("[ERROR] This should be possible (free capacity: " + (firstAgent.getCapacity() - solution.getAgentsResourcesLoad(firstAgent)) + ", required capacity: " + secondJob.getResourcesConsumedInAllocating().get(firstAgent) + ")");
-					}
-					if (!solution.addAssignment(new Assignment(secondAgent, firstJob))) {
-						System.out.println("[ERROR] This should be possible (free capacity: " + (secondAgent.getCapacity() - solution.getAgentsResourcesLoad(secondAgent)) + ", required capacity: " + firstJob.getResourcesConsumedInAllocating().get(secondAgent) + ")");
-					}
+					solution.removeAssignment(worstAssignment);
+					solution.removeAssignment(applicableAssignment);
+					solution.addAssignment(new Assignment(firstAgent, secondJob));
+					solution.addAssignment(new Assignment(secondAgent, firstJob));
+				} else {
+					System.out.println("Move restricted due to tabu");
 				}
 				updateCadencesOfTabuMoves();
 				return;
 			}
-			System.out.println("Move restricted due to tabu");
 		}
-		updateCadencesOfTabuMoves();
 	}
 
 	private Assignment findWorstAssignmentThatCanBeReassigned(Solution solution) {
@@ -177,7 +160,15 @@ public class SearchAlgorithm {
 				return true;
 			}
 		} else {
-			return false;
+			Move moveWithLeastCadence = null;
+			int leastCadence = Integer.MAX_VALUE;
+			for (Move moveInQuestion : tabuList) {
+				if (moveInQuestion.getCadence() < leastCadence) {
+					moveWithLeastCadence = moveInQuestion;
+					leastCadence = moveInQuestion.getCadence();
+				}
+			}
+			return moveWithLeastCadence != null;
 		}
 	}
 

@@ -68,7 +68,7 @@ public class Solution {
 	}
 
 	public boolean addAssignment(Assignment assignment) {
-		if(isJobAssignableToAgent(assignment.getJob(), assignment.getAgent())) {
+		if (isJobAssignableToAgent(assignment.getJob(), assignment.getAgent())) {
 			return assignments.add(assignment);
 		} else {
 			return false;

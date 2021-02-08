@@ -27,7 +27,7 @@ public class GreedyFit {
 						} else {
 							int bjresource = bestJob.getResourcesConsumedInAllocating().get(agent);
 							int bjcost = bestJob.getCostsOfAllocating().get(agent);
-							if (bjcost/bjresource < cost/resource) {
+							if (bjcost / bjresource < cost / resource) {
 								bestJob = job;
 							}
 						}
